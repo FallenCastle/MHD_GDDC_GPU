@@ -1382,11 +1382,11 @@ subroutine gpu_allocate
     eta_d = eta
     bound_type_d=bound_type
 
-    allocate(ub_d(npx,npy,nVar),stat=ierr); !call gerror_report(ierr)
-    allocate(ub0_d(npx,npy,nVar),stat=ierr); !call gerror_report(ierr)
-    allocate(uba_d(npx,npy,nVar),stat=ierr); !call gerror_report(ierr)
+    allocate(ub_d(npx,npy,nVar),stat=ierr); 
+    allocate(ub0_d(npx,npy,nVar),stat=ierr);
+    allocate(uba_d(npx,npy,nVar),stat=ierr);
     ub_d = ub
-    allocate(resid_d(0:npx+1,0:npy+1,nVar), stat=ierr); !call gerror_report(ierr)
+    allocate(resid_d(0:npx+1,0:npy+1,nVar), stat=ierr);
     resid_d = resid
     allocate(dB_d(1:npx,1:npy),stat=ierr)
     allocate(neighbxp_d(npx+1,5))
@@ -1455,8 +1455,6 @@ subroutine CloudShock1Initailize
         do ipx = 1,npx
             x = dble(ipx-1)*hx
             y = dble(ipy-1)*hy
-            !r = dsqrt((x-0.5)**2.d0+(y-0.5)**2.d0)
-            !fr = (r1-r)/(r1-r0)
             if (x < 0.6d0)then
                 rho = 3.86859d0
                 u1 = 0.d0
@@ -1515,8 +1513,6 @@ subroutine CloudShock2Initailize
         do ipx = 1,npx
             x = dble(ipx-1)*hx
             y = dble(ipy-1)*hy
-            !r = dsqrt((x-0.5)**2.d0+(y-0.5)**2.d0)
-            !fr = (r1-r)/(r1-r0)
             if (x < 0.05)then
                 rho = 3.86859d0
                 u1 = 11.2536d0
@@ -1702,33 +1698,31 @@ subroutine boundary_condition_cpu
 
     do ib=1,4
 
-        if(ib==1.or.ib==2)then!x-direction
-            !face
+        if(ib==1.or.ib==2)then
             do ipx=1,npx+1
-                !f+
                 do i=1,5
                     pt_index=ipx-4+i
                     if(pt_index.lt.1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbxp(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbxp(ipx,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbxp(ipx,i) = npx+pt_index-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbxp(ipx,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index.gt.npx)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbxp(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbxp(ipx,i) = npx
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbxp(ipx,i) = pt_index-npx+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbxp(ipx,i) = 2*npx-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1738,30 +1732,29 @@ subroutine boundary_condition_cpu
                         neighbxp(ipx,i)=pt_index
                     endif
                 enddo
-                !f-
                 do i=1,5
                     pt_index=ipx+3-i
                     if(pt_index.lt.1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbxm(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbxm(ipx,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbxm(ipx,i) = npx+pt_index-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbxm(ipx,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index.gt.npx)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbxm(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbxm(ipx,i) = npx
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbxm(ipx,i) = pt_index-npx+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbxm(ipx,i) = 2*npx-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1772,31 +1765,30 @@ subroutine boundary_condition_cpu
                     endif
                 enddo
             enddo
-            !grid
             do ipx=1,npx
                 do i=1,5
                     pt_index=ipx-3+i
                     if(pt_index<1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbx(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbx(ipx,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbx(ipx,i) = pt_index+npx-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbx(ipx,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index>npx)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbx(ipx,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbx(ipx,i) = npx
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbx(ipx,i) = pt_index-npx+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbx(ipx,i) = 2*npx-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1807,33 +1799,31 @@ subroutine boundary_condition_cpu
                     endif
                 enddo
             enddo
-        elseif(ib==3.or.ib==4)then!y-direction
-            !face
+        elseif(ib==3.or.ib==4)then
             do ipy=1,npy+1
-                !f+
                 do i=1,5
                     pt_index=ipy-4+i
                     if(pt_index.lt.1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbyp(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbyp(ipy,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbyp(ipy,i) = npy+pt_index-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbyp(ipy,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index.gt.npy)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbyp(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbyp(ipy,i) = npy
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbyp(ipy,i) = pt_index-npy+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbyp(ipy,i) = 2*npy-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1843,30 +1833,29 @@ subroutine boundary_condition_cpu
                         neighbyp(ipy,i)=pt_index
                     endif
                 enddo
-                !f-
                 do i=1,5
                     pt_index=ipy+3-i
                     if(pt_index.lt.1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbym(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbym(ipy,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbym(ipy,i) = npy+pt_index-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbym(ipy,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index.gt.npy)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighbym(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighbym(ipy,i) = npy
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighbym(ipy,i) = pt_index-npy+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighbym(ipy,i) = 2*npy-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1877,31 +1866,30 @@ subroutine boundary_condition_cpu
                     endif
                 enddo
             enddo
-            !grid
             do ipy=1,npy
                 do i=1,5
                     pt_index=ipy-3+i
                     if(pt_index<1)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighby(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighby(ipy,i) = 1
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighby(ipy,i) = pt_index+npy-1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighby(ipy,i) = 2-pt_index
                         else
                             write(*,*)'Wrong boundary type'
                             stop
                         endif
                     elseif(pt_index>npy)then
-                        if(bound_type(ib)==1)then!inlet
+                        if(bound_type(ib)==1)then
                             neighby(ipy,i) = 0
-                        elseif(bound_type(ib)==2)then!outflow
+                        elseif(bound_type(ib)==2)then
                             neighby(ipy,i) = npy
-                        elseif(bound_type(ib)==3)then!cyclic
+                        elseif(bound_type(ib)==3)then
                             neighby(ipy,i) = pt_index-npy+1
-                        elseif(bound_type(ib)==4)then!sym
+                        elseif(bound_type(ib)==4)then
                             neighby(ipy,i) = 2*npy-pt_index
                         else
                             write(*,*)'Wrong boundary type'
@@ -1914,160 +1902,7 @@ subroutine boundary_condition_cpu
             enddo
         endif
     enddo
-    !test
-    !do ipx=1,npx+1
-    !    !f+
-    !    do i=1,5
-    !        pt_index = ipx-4+i
-    !        if(pt_index.lt.1)then
-    !            !tmp=npx+pt_index-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index.gt.npx)then
-    !            !tmp=pt_index-npx+1!cyc
-    !            tmp = 2*npx-pt_index
-    !        else
-    !            tmp=pt_index
-    !        endif
-    !        if(tmp.ne.neighbxp(ipx,i))then
-    !            write(*,*)ipx,i,tmp,neighbxp(ipx,i)
-    !        endif
-    !    enddo
-    !    !f-
-    !    do i=1,5
-    !        pt_index = ipx+3-i
-    !        if(pt_index.lt.1)then
-    !            !tmp=npx+pt_index-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index.gt.npx)then
-    !            !tmp=pt_index-npx+1!cyc
-    !            tmp = 2*npx-pt_index!sym
-    !        else
-    !            tmp=pt_index
-    !        endif
-    !        if(tmp.ne.neighbxm(ipx,i))then
-    !            write(*,*)ipx,i,tmp,neighbxm(ipx,i)
-    !        endif
-    !    enddo
-    !enddo
-    !do ipy=1,npy+1
-    !    !f+
-    !    do i=1,5
-    !        pt_index = ipy-4+i
-    !        if(pt_index.lt.1)then
-    !            !tmp=npy+pt_index-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index.gt.npy)then
-    !            !tmp=pt_index-npy+1!cyc
-    !            tmp = 2*npy-pt_index!sym
-    !        else
-    !            tmp=pt_index
-    !        endif
-    !        if(tmp.ne.neighbyp(ipy,i))then
-    !            write(*,*)ipy,i,tmp,neighbyp(ipy,i)
-    !        endif
-    !    enddo
-    !    !f-
-    !    do i=1,5
-    !        pt_index = ipy+3-i
-    !        if(pt_index.lt.1)then
-    !            !tmp=npy+pt_index-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index.gt.npy)then
-    !            !tmp=pt_index-npy+1!cyc
-    !            tmp = 2*npy-pt_index!sym
-    !        else
-    !            tmp=pt_index
-    !        endif
-    !        if(tmp.ne.neighbym(ipy,i))then
-    !            write(*,*)ipy,i,tmp,neighbym(ipy,i)
-    !        endif
-    !    enddo
-    !enddo
-    !do ipx=1,npx
-    !    do i=1,5
-    !        pt_index = ipx-3+i
-    !        if(pt_index < 1)then
-    !            !tmp = pt_index+npx-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index > npx)then
-    !            !tmp = pt_index-npx+1!cyc
-    !            tmp=2*npx-pt_index
-    !        else
-    !            tmp = pt_index
-    !        endif
-    !        if(tmp.ne.neighbx(ipx,i))then
-    !            write(*,*)ipx,i,tmp,neighbx(ipx,i)
-    !        endif
-    !    enddo
-    !enddo
-    !do ipy=1,npy
-    !    do i=1,5
-    !        pt_index = ipy-3+i
-    !        if(pt_index < 1)then
-    !            !tmp = pt_index+npy-1!cyc
-    !            tmp = 2-pt_index!sym
-    !        elseif(pt_index > npy)then
-    !            !tmp = pt_index-npy+1!cyc
-    !            tmp = 2*npy-pt_index!sym
-    !        else
-    !            tmp = pt_index
-    !        endif
-    !        if(tmp.ne.neighby(ipy,i))then
-    !            write(*,*)ipy,i,tmp,neighby(ipy,i)
-    !        endif
-    !    enddo
-    !enddo
-    !write(*,*)'done'
-    !stop
-    
 end subroutine boundary_condition_cpu
-
-subroutine inlet_condition(bound)
-    use setup
-    implicit none
-
-    integer, intent(in):: bound
-
-    
-end subroutine inlet_condition
-
-subroutine outflow_condition(bound)
-    use setup
-    implicit none
-
-    integer, intent(in):: bound
-
-    
-end subroutine outflow_condition
-
-subroutine cyclic_condition(bound)
-    use setup
-    implicit none
-
-    integer, intent(in):: bound
-    integer::iface,i
-
-    if(bound==1)then!xmin
-
-    elseif(bound==2)then!xmax
-
-    elseif(bound==3)then!ymin
-
-    elseif(bound==4)then!ymax
-
-    endif
-    
-end subroutine cyclic_condition
-
-subroutine sym_condition(bound)
-    use setup
-    implicit none
-
-    integer, intent(in):: bound
-
-    
-end subroutine sym_condition
-
 
 subroutine write_solu_tecplot
     use setup
