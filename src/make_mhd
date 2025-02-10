@@ -1,0 +1,7 @@
+ccxx=cc80
+name=MHD_GDDC_GPU
+mpif90 -cuda -O3 -c MHD_GDDC_GPU.f90 
+mpif90 -cuda -O3 -o $name.out *.o
+rm -f *.mod
+rm -f *.c
+rm -f *.o

@@ -1,0 +1,11 @@
+Rotor1
+xmin, xmax, ymin, ymax, npx, npy
+0.0 1.0 0.0 1.0 200 200
+dt, End time, steps per save, eta, gamma
+0.0001 0.15 1000 0.000001 1.4
+bxmin, bxmax, bymin, bymax
+cyc cyc cyc cyc
+Inlet origin variables: rho, u, v, w, p, Bx, By, Bz (It only takes effect when inlet boundary conditions are present.)
+0 0 0 0 0 0 0 0
+restart
+0
