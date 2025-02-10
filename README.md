@@ -49,7 +49,7 @@ Thus, to run a simulation, type, e.g.:
 
 `bymax` defines the type of y-max boundary ( inlet -> inlet, out -> outflow, cyc -> cyclic, sym -> symmetry )
 
-`Inlet origin variables: rho, u, v, w, p, Bx, By, Bz` define the inlet boundary original variables
+`Inlet origin variables: rho, u, v, w, p, Bx, By, Bz` define the inlet boundary primitive variables
 
 `restart` defines whether to restart a simulation ( 0 -> without restart, 1 -> restart )
 
