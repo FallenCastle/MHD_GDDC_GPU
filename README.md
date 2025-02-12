@@ -10,7 +10,7 @@ sh make_mhd
 
 # Running
 
-MHD_GDDC_GPU can only run on hardware equipped with NVIDIA GPUs. In addition one file have to specified:
+MHD_GDDC_GPU can only run on hardware equipped with NVIDIA GPUs. In addition one file has to be specified:
 
 * `input.dat`: A file that defines the physical and numerical setup of the simulation, which can be customized based on specific requirements. Examples of input.dat files can be found in the `cases` folder.
 
