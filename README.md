@@ -55,7 +55,7 @@ Thus, to run a simulation, type, e.g.:
 
 # Interpreting the outputs
 
-Once the calculation is started, a folder will be created in the current directory with the name format "case name+time." As the calculation progresses, MHD_GDDC_GPU will output three types of files in the folder: Info.dat, restart.*.dat, and TEC.*.dat.
+Once the calculation is started, a folder will be created in the current directory with the name format "case name+time". As the calculation progresses, MHD_GDDC_GPU will output three types of files in the folder: Info.dat, restart.\*.dat, and TEC.\*.dat.
 
 * `Info.dat`: the file contains basic configuration information for the simulation.
 
