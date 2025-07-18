@@ -1175,7 +1175,6 @@ program MHD
         PRINT *, "Input file opened successfully."
     endif
 
-    read(11,*)
     read(11,*)casename
     read(11,*)
     read(11,*)xmin,xmax,ymin,ymax,npx,npy
