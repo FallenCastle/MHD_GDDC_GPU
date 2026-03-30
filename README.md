@@ -1,5 +1,11 @@
 # References
-If you use MHD_GDDC_GPU for academic applications, please cite our paper. (https://doi.org/10.1016/j.cpc.2025.109744)
+If you use **MHD_GDDC_GPU** for academic applications, please our paper:
+
+**Zeyu Chen and Kuangxu Chen**,  
+*"A new gradient descent divergence cleaning method with optimized high-order low-dissipation TENO schemes for ideal magnetohydrodynamic simulations"*,  
+*Computer Physics Communications*,  
+Volume 315, October 2025, 109744.  
+https://doi.org/10.1016/j.cpc.2025.109744
 
 # MHD_GDDC_GPU
 MHD_GDDC_GPU is a GPU accelerated code based on the TENO and Gradient Descent Divergence Cleaning method ( GDDC ) to solve the ideal magnetohydrodynamics equations.
