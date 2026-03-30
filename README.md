@@ -1,5 +1,9 @@
 # MHD_GDDC_GPU
 MHD_GDDC_GPU is a GPU accelerated code based on the TENO and Gradient Descent Divergence Cleaning method ( GDDC ) to solve the ideal magnetohydrodynamics equations.
+
+#References
+If you use MHD_GDDC_GPU for academic applications, please sice our paper. (https://doi.org/10.1016/j.cpc.2025.109744)
+
 # Compiling
 
 MHD_GDDC_GPU requires the NVFORTRAN compiler ( download from: https://developer.nvidia.com/hpc-sdk-downloads ). The compilation script has been prepared (./source/make_mhd), and the compilation command is:
